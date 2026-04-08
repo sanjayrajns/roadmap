@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase-admin';
+import { getDb } from '@/lib/firebase-admin';
 
 function generateUserId(): string {
   return 'user_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 8);
@@ -185,6 +185,7 @@ export async function POST(request: Request) {
     }
 
     // Step 5: Save to Firebase
+    const db = getDb();
     const finalUserId = userId || generateUserId();
     const docData = {
       userId: finalUserId,
