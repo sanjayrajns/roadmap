@@ -1,0 +1,28 @@
+{
+  "role": "frontend",
+  "stages": [
+    {
+      "stage_name": "Fundamentals of Frontend",
+      "skills": [
+        "HTML",
+        "CSS",
+        "Basic DOM Manipulation"
+      ],
+      "recommended_projects": [
+        "Personal Portfolio",
+        "Basic CRUD Script"
+      ]
+    },
+    {
+      "stage_name": "Advanced Frontend Patterns",
+      "skills": [
+        "Frameworks",
+        "State Management"
+      ],
+      "recommended_projects": [
+        "Fullstack Clone",
+        "Microservice Wrapper"
+      ]
+    }
+  ]
+}

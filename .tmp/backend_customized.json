@@ -1,0 +1,29 @@
+{
+  "role": "backend",
+  "stages": [
+    {
+      "stage_name": "Fundamentals of Backend",
+      "skills": [
+        "Internet Basics",
+        "HTTP Protocols",
+        "Basic Terminal"
+      ],
+      "recommended_projects": [
+        "Personal Portfolio",
+        "Basic CRUD Script"
+      ]
+    },
+    {
+      "stage_name": "Advanced Backend Patterns",
+      "skills": [
+        "Databases",
+        "APIs",
+        "Scaling"
+      ],
+      "recommended_projects": [
+        "Fullstack Clone",
+        "Microservice Wrapper"
+      ]
+    }
+  ]
+}
