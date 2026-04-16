@@ -60,44 +60,10 @@ export async function POST(request: Request) {
       }, userGoals);
     }
 
-    // Step 2: Collect all skills across stages
-    const allSkills: string[] = [];
-    for (const stage of roadmapPayload.stages) {
-      for (const skill of stage.skills || []) {
-        allSkills.push(skill);
-      }
-    }
-
-    // Step 3: Fetch Resources using curated + GitHub engine
-    let resourceMap: Record<string, any[]> = {};
-    try {
-      const pythonPath = process.env.NODE_ENV === 'production' ? 'python3' : 'python';
-      const scriptPath = path.join(process.cwd(), '..', 'tools', 'fetch_resources.py');
-      const topicsParam = allSkills.join(',');
-      const cmd = `${pythonPath} "${scriptPath}" --topics "${topicsParam}" --style "${learning_style || 'video'}" --experience "${experience_level || 'beginner'}"`;
-      const output = execSync(cmd, { encoding: 'utf-8' });
-      resourceMap = JSON.parse(output);
-    } catch (e: any) {
-      console.warn("Failed to fetch resources:", e.message);
-    }
-
-    // Step 4: Map resources back to stages using normalized key matching
+    // Step 2: Skip Resource Fetching (Lazy Loaded sequentially)
     const flatResources: any[] = [];
     for (const stage of roadmapPayload.stages) {
       stage.resources = {};
-      for (const skill of stage.skills || []) {
-        const normalizedKey = skill.trim().toLowerCase().replace(/\s+/g, ' ');
-        // Try exact match first, then partial match
-        const matchedKey = resourceMap[normalizedKey]
-          ? normalizedKey
-          : Object.keys(resourceMap).find(k => normalizedKey.includes(k) || k.includes(normalizedKey));
-        if (matchedKey && resourceMap[matchedKey]) {
-          stage.resources[skill] = resourceMap[matchedKey];
-          resourceMap[matchedKey].forEach((res: any) => {
-            flatResources.push({ ...res, topic: normalizedKey });
-          });
-        }
-      }
     }
 
     // Step 5: Save to Firebase

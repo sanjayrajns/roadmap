@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RoadmapProgress from "./roadmap/RoadmapProgress";
 import ProgressTracker from "./roadmap/ProgressTracker";
@@ -30,6 +30,7 @@ interface RoadmapViewProps {
   roadmap: Roadmap;
   resources?: Resource[];
   initialProgress?: { completed_stages: number; total_stages: number };
+  firebaseId?: string;
 }
 
 const ROLE_LABELS: Record<string, string> = {
@@ -52,9 +53,55 @@ export default function RoadmapView({
     () => new Set()
   );
 
-  if (!roadmap || !roadmap.stages?.length) return null;
+  const [localRoadmap, setLocalRoadmap] = useState<Roadmap>(roadmap);
+  const [isLoadingResources, setIsLoadingResources] = useState(false);
 
-  const stages = roadmap.stages;
+  // Sync prop changes to local state just in case
+  useEffect(() => {
+    if (roadmap) setLocalRoadmap(roadmap);
+  }, [roadmap]);
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      if (!localRoadmap || !localRoadmap.stages?.length) return;
+      const stage = localRoadmap.stages[activeStageIndex];
+      
+      // If resources are completely empty, fetch them
+      if (!stage.resources || Object.keys(stage.resources).length === 0) {
+        if (!stage.skills || stage.skills.length === 0) return;
+        setIsLoadingResources(true);
+        try {
+          const res = await fetch("/api/resources", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              topics: stage.skills,
+            }),
+          });
+          const data = await res.json();
+          if (data.resources) {
+            setLocalRoadmap((prev) => {
+              const newRoadmap = { ...prev };
+              newRoadmap.stages[activeStageIndex] = {
+                ...newRoadmap.stages[activeStageIndex],
+                resources: data.resources,
+              };
+              return newRoadmap;
+            });
+          }
+        } catch (error) {
+          console.error("Failed to fetch resources:", error);
+        } finally {
+          setIsLoadingResources(false);
+        }
+      }
+    };
+    fetchResources();
+  }, [activeStageIndex, localRoadmap]);
+
+  if (!localRoadmap || !localRoadmap.stages?.length) return null;
+
+  const stages = localRoadmap.stages;
   const activeStage = stages[activeStageIndex];
   const nextStage = stages[activeStageIndex + 1] ?? null;
 
@@ -141,6 +188,7 @@ export default function RoadmapView({
                 stageIndex={activeStageIndex}
                 isCompleted={completedStages.has(activeStageIndex)}
                 onComplete={handleComplete}
+                isLoadingResources={isLoadingResources}
               />
             </motion.div>
           </AnimatePresence>

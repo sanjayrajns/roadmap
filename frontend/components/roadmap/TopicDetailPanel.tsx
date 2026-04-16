@@ -20,6 +20,7 @@ interface TopicDetailPanelProps {
   stage: Stage;
   stageIndex: number;
   isCompleted: boolean;
+  isLoadingResources?: boolean;
   onComplete: () => void;
 }
 
@@ -79,6 +80,7 @@ export default function TopicDetailPanel({
   stage,
   stageIndex,
   isCompleted,
+  isLoadingResources = false,
   onComplete,
 }: TopicDetailPanelProps) {
   const [activeTab, setActiveTab] = useState<TabId>("resources");
@@ -234,26 +236,33 @@ export default function TopicDetailPanel({
                   </div>
                 )}
 
-                {/* Resource List — grouped by type */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeSkill ?? "all"}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ResourceList
-                      resources={displayedResources}
-                      emptyMessage={
-                        activeSkill
-                          ? `No curated resources found for "${activeSkill}" yet.`
-                          : "No resources found for this stage."
-                      }
-                      grouped
-                    />
-                  </motion.div>
-                </AnimatePresence>
+                {/* Loading State or Resource List */}
+                {isLoadingResources ? (
+                  <div className="py-20 text-center space-y-4">
+                    <div className="w-8 h-8 border-2 border-zinc-900 dark:border-zinc-100 border-t-transparent dark:border-t-transparent animate-spin mx-auto" />
+                    <p className="text-sm font-bold tracking-widest text-zinc-400 uppercase">Fetching Learning Resources...</p>
+                  </div>
+                ) : (
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeSkill ?? "all"}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ResourceList
+                        resources={displayedResources}
+                        emptyMessage={
+                          activeSkill
+                            ? `No curated resources found for "${activeSkill}" yet.`
+                            : "No resources found for this stage."
+                        }
+                        grouped
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                )}
               </div>
             )}
 
