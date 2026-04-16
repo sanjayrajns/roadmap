@@ -12,6 +12,7 @@ interface GeneratingScreenProps {
   interest: string;
   learningStyle: string;
   timeCommitment: number;
+  onComplete?: () => void;
 }
 
 const STEPS = [
@@ -97,6 +98,7 @@ export default function GeneratingScreen({
   interest,
   learningStyle,
   timeCommitment,
+  onComplete,
 }: GeneratingScreenProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
@@ -117,11 +119,15 @@ export default function GeneratingScreen({
         if (idx < STEPS.length) {
           setActiveStep(idx);
           advance();
+        } else {
+          if (onComplete) {
+            setTimeout(onComplete, 1000);
+          }
         }
       }, duration);
     };
     advance();
-  }, []);
+  }, [onComplete]);
 
   const roleLabel = ROLE_LABELS[role] ?? role.charAt(0).toUpperCase() + role.slice(1);
   const progress = Math.round((completedSteps.size / STEPS.length) * 100);

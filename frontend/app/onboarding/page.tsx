@@ -102,6 +102,7 @@ export default function Onboarding() {
     time_commitment: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [uiPayload, setUiPayload] = useState<{roadmap: any, resources: any[], progress: any} | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
@@ -131,6 +132,7 @@ export default function Onboarding() {
       return;
     }
     setLoading(true);
+    setIsAnimating(true);
     try {
       const response = await fetch('/api/roadmap', {
         method: 'POST',
@@ -169,7 +171,7 @@ export default function Onboarding() {
     setStep(5);
   };
 
-  if (loading) {
+  if (loading || isAnimating) {
     return (
       <GeneratingScreen
         role={formData.role_goal}
@@ -177,6 +179,7 @@ export default function Onboarding() {
         interest={formData.interest_area}
         learningStyle={formData.learning_style}
         timeCommitment={formData.time_commitment}
+        onComplete={() => setIsAnimating(false)}
       />
     );
   }
