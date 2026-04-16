@@ -57,6 +57,7 @@ export default function Workspace({ roadmap, resources, initialProgress }: Works
                       roadmap={roadmap}
                       resources={resources}
                       initialProgress={initialProgress}
+                      onReturnToDashboard={() => setActiveSection("dashboard")}
                     />
                   </div>
                 </div>

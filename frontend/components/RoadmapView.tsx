@@ -31,6 +31,7 @@ interface RoadmapViewProps {
   resources?: Resource[];
   initialProgress?: { completed_stages: number; total_stages: number };
   firebaseId?: string;
+  onReturnToDashboard?: () => void;
 }
 
 const ROLE_LABELS: Record<string, string> = {
@@ -47,6 +48,7 @@ export default function RoadmapView({
   roadmap,
   resources = [],
   initialProgress,
+  onReturnToDashboard,
 }: RoadmapViewProps) {
   const [activeStageIndex, setActiveStageIndex] = useState(0);
   const [completedStages, setCompletedStages] = useState<Set<number>>(
@@ -213,7 +215,7 @@ export default function RoadmapView({
           </AnimatePresence>
         </div>
 
-        {/* ── Completion Banner ─────────────────────────────── */}
+      {/* ── Completion Banner ─────────────────────────────── */}
         <AnimatePresence>
           {completedStages.size === stages.length && (
             <motion.div
@@ -221,7 +223,7 @@ export default function RoadmapView({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-zinc-900 dark:bg-zinc-800 text-white p-8 text-center"
+              className="bg-zinc-900 dark:bg-zinc-800 text-white p-8 text-center mt-6"
             >
               <p className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase mb-3">
                 🎉 Roadmap Complete
@@ -229,10 +231,18 @@ export default function RoadmapView({
               <h2 className="text-2xl md:text-3xl font-bold mb-2">
                 You've mastered the {roleLabel} path!
               </h2>
-              <p className="text-zinc-400 text-sm">
+              <p className="text-zinc-400 text-sm mb-6">
                 All {stages.length} stages completed. Time to build something
                 great.
               </p>
+              {onReturnToDashboard && (
+                <button
+                  onClick={onReturnToDashboard}
+                  className="bg-white text-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+                >
+                  Proceed to Dashboard →
+                </button>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
