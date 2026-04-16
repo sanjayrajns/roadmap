@@ -1,6 +1,47 @@
 import { NextResponse } from 'next/server';
-import { execSync } from 'child_process';
-import path from 'path';
+import resourcesData from '@/lib/resources.json';
+
+const CURATED_RESOURCES: any = resourcesData;
+
+function fetchResourcesNative(topics: string[], style: string, experience: string) {
+  const result: any = {};
+  for (const topic of topics) {
+    const key = topic.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!key) continue;
+
+    let resources = CURATED_RESOURCES[key];
+    if (!resources) {
+      for (const [cKey, cRes] of Object.entries(CURATED_RESOURCES)) {
+        if (cKey.includes(key) || key.includes(cKey)) {
+          resources = cRes;
+          break;
+        }
+      }
+    }
+
+    if (resources) {
+      const depthFiltered = experience === 'beginner' 
+        ? resources.filter((r: any) => r.depth === 'beginner' || r.depth === 'all')
+        : experience === 'advanced'
+        ? resources.filter((r: any) => r.depth === 'advanced' || r.depth === 'all')
+        : resources;
+
+      const styleMatch = depthFiltered.filter((r: any) => r.type === style);
+      const other = depthFiltered.filter((r: any) => r.type !== style);
+      result[key] = [...styleMatch, ...other].slice(0, 5);
+    } else {
+      // Fallback
+      result[key] = [{
+        title: `${topic} GitHub Search Overview`,
+        type: "github",
+        depth: "all",
+        url: `https://github.com/search?q=${encodeURIComponent(topic)}&type=repositories`,
+        description: `Explore top GitHub repositories for ${topic}.`
+      }];
+    }
+  }
+  return result;
+}
 
 export async function POST(request: Request) {
   try {
@@ -13,12 +54,7 @@ export async function POST(request: Request) {
 
     let resourceMap: Record<string, any[]> = {};
     try {
-      const pythonPath = process.env.NODE_ENV === 'production' ? 'python3' : 'python';
-      const scriptPath = path.join(process.cwd(), '..', 'tools', 'fetch_resources.py');
-      const topicsParam = topics.join(',');
-      const cmd = `${pythonPath} "${scriptPath}" --topics "${topicsParam}" --style "${learning_style || 'video'}" --experience "${experience_level || 'beginner'}"`;
-      const output = execSync(cmd, { encoding: 'utf-8' });
-      resourceMap = JSON.parse(output);
+      resourceMap = fetchResourcesNative(topics, learning_style || 'video', experience_level || 'beginner');
     } catch (e: any) {
       console.warn("Failed to fetch resources:", e.message);
       return NextResponse.json({ error: "Failed to fetch resources" }, { status: 500 });
