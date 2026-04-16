@@ -51,12 +51,12 @@ export default function RoadmapProgress({
                   className={cn(
                     "w-10 h-10 flex items-center justify-center border-2 transition-all duration-300 relative",
                     isCompleted
-                      ? "bg-zinc-900 border-zinc-900 text-white"
+                      ? "bg-zinc-900 dark:bg-zinc-100 border-zinc-900 dark:border-zinc-100 text-white dark:text-zinc-900"
                       : isActive
-                      ? "bg-white border-zinc-900 text-zinc-900 shadow-lg shadow-zinc-900/10"
+                      ? "bg-white dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-100 shadow-lg shadow-zinc-900/10 dark:shadow-white/5"
                       : isLocked
-                      ? "bg-zinc-50 border-zinc-200 text-zinc-300"
-                      : "bg-white border-zinc-300 text-zinc-500 hover:border-zinc-900"
+                      ? "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-800 text-zinc-300 dark:text-zinc-600"
+                      : "bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 text-zinc-500 dark:text-zinc-400 hover:border-zinc-900 dark:hover:border-zinc-400"
                   )}
                 >
                   {isCompleted ? (
@@ -70,7 +70,7 @@ export default function RoadmapProgress({
                   {/* Active pulse ring */}
                   {isActive && !isCompleted && (
                     <motion.span
-                      className="absolute inset-0 border-2 border-zinc-900"
+                      className="absolute inset-0 border-2 border-zinc-900 dark:border-zinc-100"
                       animate={{ scale: [1, 1.3], opacity: [0.6, 0] }}
                       transition={{ duration: 1.4, repeat: Infinity, ease: "easeOut" }}
                     />
@@ -83,17 +83,17 @@ export default function RoadmapProgress({
                     className={cn(
                       "text-[10px] font-bold tracking-wide uppercase leading-tight",
                       isCompleted
-                        ? "text-zinc-900"
+                        ? "text-zinc-900 dark:text-zinc-100"
                         : isActive
-                        ? "text-zinc-900"
-                        : "text-zinc-400"
+                        ? "text-zinc-900 dark:text-zinc-100"
+                        : "text-zinc-400 dark:text-zinc-600"
                     )}
                   >
                     {stage.stage_name.length > 22
                       ? stage.stage_name.slice(0, 22) + "…"
                       : stage.stage_name}
                   </p>
-                  <p className="text-[9px] text-zinc-400 mt-0.5">
+                  <p className="text-[9px] text-zinc-400 dark:text-zinc-500 mt-0.5">
                     {stage.skills?.length ?? 0} topics
                   </p>
                 </div>
@@ -102,9 +102,9 @@ export default function RoadmapProgress({
               {/* Connector line */}
               {idx < stages.length - 1 && (
                 <div className="relative mx-2 flex items-center" style={{ marginBottom: "28px" }}>
-                  <div className="w-12 h-px bg-zinc-200" />
+                  <div className="w-12 h-px bg-zinc-200 dark:bg-zinc-800" />
                   <motion.div
-                    className="absolute left-0 h-px bg-zinc-900 origin-left"
+                    className="absolute left-0 h-px bg-zinc-900 dark:bg-zinc-100 origin-left"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: isCompleted ? 1 : 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}

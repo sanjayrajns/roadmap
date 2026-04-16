@@ -22,7 +22,7 @@ export default function Workspace({ roadmap, resources, initialProgress }: Works
   const roleTitle = roadmap?.role || "";
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-zinc-50 w-full font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-zinc-50 dark:bg-zinc-950 w-full font-sans">
       <NavigationSidebar
         activeSection={activeSection}
         onSelect={setActiveSection}

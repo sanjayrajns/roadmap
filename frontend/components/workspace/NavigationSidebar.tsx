@@ -3,6 +3,8 @@
 import { LayoutDashboard, Map, BookOpen, Layers, TerminalSquare, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import ThemeToggle from "@/components/ui/ThemeToggle";
+
 export type SectionId = "dashboard" | "roadmaps" | "courses" | "paths" | "playground" | "profile";
 
 interface NavigationSidebarProps {
@@ -26,17 +28,17 @@ export default function NavigationSidebar({
   roleTitle,
 }: NavigationSidebarProps) {
   return (
-    <div className="w-full lg:w-64 bg-white border-r border-zinc-200 flex flex-col h-full flex-shrink-0">
-      <div className="p-6 border-b border-zinc-200">
+    <div className="w-full lg:w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col h-full flex-shrink-0">
+      <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-zinc-900 flex items-center justify-center text-white font-bold uppercase">
             {roleTitle ? roleTitle.charAt(0) : "U"}
           </div>
           <div className="flex-1 overflow-hidden">
-            <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-bold">
               Workspace
             </p>
-            <p className="text-sm font-bold text-zinc-900 truncate">
+            <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100 truncate">
               {roleTitle || "Learner"}
             </p>
           </div>
@@ -54,8 +56,8 @@ export default function NavigationSidebar({
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-wide uppercase transition-all duration-200 text-left",
                 isActive
-                  ? "bg-zinc-900 text-white"
-                  : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900"
+                  ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
+                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
               )}
             >
               <Icon className={cn("w-4 h-4", isActive ? "text-white" : "text-zinc-400")} />
@@ -65,7 +67,8 @@ export default function NavigationSidebar({
         })}
       </nav>
 
-      <div className="p-4 border-t border-zinc-200">
+      <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 space-y-3">
+        <ThemeToggle variant="pill" className="w-full justify-center" />
         <p className="text-[9px] text-zinc-400 uppercase tracking-widest text-center">
           AI Developer Roadmap
         </p>

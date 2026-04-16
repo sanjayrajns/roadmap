@@ -123,18 +123,18 @@ export default function TopicDetailPanel({
   return (
     <div className="flex flex-col h-full">
       {/* Stage Header */}
-      <div className="pb-5 border-b border-zinc-100 mb-5">
+      <div className="pb-5 border-b border-zinc-100 dark:border-zinc-800 mb-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase block mb-2">
               Stage {stageIndex + 1}
             </span>
-            <h2 className="text-xl md:text-2xl font-bold text-zinc-900 tracking-tight leading-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight">
               {stage.stage_name}
             </h2>
           </div>
           {isCompleted && (
-            <span className="shrink-0 text-[9px] font-bold tracking-widest bg-zinc-900 text-white px-3 py-1.5 uppercase">
+            <span className="shrink-0 text-[9px] font-bold tracking-widest bg-zinc-900 dark:bg-zinc-800 text-white px-3 py-1.5 uppercase">
               Completed
             </span>
           )}
@@ -145,7 +145,7 @@ export default function TopicDetailPanel({
             {stage.skills.map((skill, i) => (
               <span
                 key={i}
-                className="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 bg-zinc-50 border border-zinc-200 text-zinc-600"
+                className="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400"
               >
                 {skill}
               </span>
@@ -155,7 +155,7 @@ export default function TopicDetailPanel({
       </div>
 
       {/* Tab Bar */}
-      <div className="flex border-b border-zinc-100 mb-5 overflow-x-auto scrollbar-hide">
+      <div className="flex border-b border-zinc-100 dark:border-zinc-800 mb-5 overflow-x-auto scrollbar-hide">
         {TABS.map(({ id, label, Icon }) => (
           <button
             key={id}
@@ -163,14 +163,14 @@ export default function TopicDetailPanel({
             className={cn(
               "flex items-center gap-1.5 px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase border-b-2 transition-all duration-200 -mb-px whitespace-nowrap",
               activeTab === id
-                ? "border-zinc-900 text-zinc-900"
-                : "border-transparent text-zinc-400 hover:text-zinc-700"
+                ? "border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-100"
+                : "border-transparent text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
             )}
           >
             <Icon className="w-3.5 h-3.5" />
             {label}
             {id === "resources" && displayedResources.length > 0 && (
-              <span className="ml-1 bg-zinc-100 text-zinc-500 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+              <span className="ml-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                 {getAllResources(stage.resources).length}
               </span>
             )}
@@ -193,14 +193,14 @@ export default function TopicDetailPanel({
               <div className="space-y-4">
                 {/* Skill Filter Pills */}
                 {hasMultipleSkillResources && (
-                  <div className="flex flex-wrap gap-2 pb-3 border-b border-zinc-100">
+                  <div className="flex flex-wrap gap-2 pb-3 border-b border-zinc-100 dark:border-zinc-800">
                     <button
                       onClick={() => setActiveSkill(null)}
                       className={cn(
                         "text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 border transition-all duration-150",
                         activeSkill === null
-                          ? "bg-zinc-900 border-zinc-900 text-white"
-                          : "bg-white border-zinc-200 text-zinc-500 hover:border-zinc-700 hover:text-zinc-900"
+                          ? "bg-zinc-900 dark:bg-zinc-100 border-zinc-900 dark:border-zinc-100 text-white dark:text-zinc-900"
+                          : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:border-zinc-700 dark:hover:border-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
                       )}
                     >
                       All Topics
@@ -212,8 +212,8 @@ export default function TopicDetailPanel({
                         className={cn(
                           "text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 border transition-all duration-150",
                           activeSkill === skill
-                            ? "bg-zinc-900 border-zinc-900 text-white"
-                            : "bg-white border-zinc-200 text-zinc-500 hover:border-zinc-700 hover:text-zinc-900"
+                            ? "bg-zinc-900 dark:bg-zinc-100 border-zinc-900 dark:border-zinc-100 text-white dark:text-zinc-900"
+                            : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:border-zinc-700 dark:hover:border-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
                         )}
                       >
                         {skill}
@@ -228,7 +228,7 @@ export default function TopicDetailPanel({
                     <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
                       Showing resources for:
                     </span>
-                    <span className="text-[10px] font-bold tracking-widest text-zinc-900 uppercase">
+                    <span className="text-[10px] font-bold tracking-widest text-zinc-900 dark:text-zinc-100 uppercase">
                       {activeSkill}
                     </span>
                   </div>
@@ -262,24 +262,24 @@ export default function TopicDetailPanel({
               <div className="relative">
                 {readmeLoading ? (
                   <div className="py-20 text-center space-y-4">
-                    <div className="w-8 h-8 border-2 border-zinc-900 border-t-transparent animate-spin mx-auto" />
+                    <div className="w-8 h-8 border-2 border-zinc-900 dark:border-zinc-100 border-t-transparent dark:border-t-transparent animate-spin mx-auto" />
                     <p className="text-sm font-bold tracking-widest text-zinc-400 uppercase">Fetching Documentation...</p>
                   </div>
                 ) : readmeContent ? (
                   <div className={cn(
-                    "prose prose-zinc prose-sm max-w-none text-zinc-600 font-light",
+                    "prose prose-zinc dark:prose-invert prose-sm max-w-none text-zinc-600 dark:text-zinc-400 font-light",
                     !isReadmeExpanded && "max-h-[400px] overflow-hidden"
                   )}>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {readmeContent}
                     </ReactMarkdown>
                     {!isReadmeExpanded && (
-                      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-50 to-transparent pointer-events-none" />
+                      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-50 dark:from-zinc-900 to-transparent pointer-events-none" />
                     )}
                     <div className={cn("mt-6 pb-12 text-center", !isReadmeExpanded && "relative z-10")}>
                       <button
                         onClick={() => setIsReadmeExpanded(!isReadmeExpanded)}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white text-[10px] font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors shadow-lg"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-[10px] font-bold tracking-widest uppercase hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors shadow-lg"
                       >
                         {isReadmeExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                         {isReadmeExpanded ? 'Show Less' : 'Read More'}
@@ -303,12 +303,12 @@ export default function TopicDetailPanel({
                   stage.recommended_projects!.map((proj, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-4 border border-zinc-100 bg-white hover:border-zinc-900 transition-colors"
+                      className="flex items-center gap-3 p-4 border border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors hover:border-zinc-900 dark:hover:border-zinc-500"
                     >
                       <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase w-6 shrink-0">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-sm font-medium text-zinc-800">{proj}</span>
+                      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{proj}</span>
                     </div>
                   ))
                 ) : (

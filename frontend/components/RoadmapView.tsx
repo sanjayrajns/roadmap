@@ -78,7 +78,7 @@ export default function RoadmapView({
     ROLE_LABELS[roadmap.role?.toLowerCase()] ?? roadmap.role?.toUpperCase() ?? "Your";
 
   return (
-    <div className="min-h-screen bg-zinc-50">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       {/* ── Dashboard wrapper ─────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-14 space-y-8">
 
@@ -87,16 +87,16 @@ export default function RoadmapView({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-zinc-200"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-zinc-200 dark:border-zinc-800"
         >
           <div>
             <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase block mb-2">
               Your Personalized Roadmap
             </span>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
               {roleLabel} Path
             </h1>
-            <p className="text-sm text-zinc-500 mt-2">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">
               {stages.length} stages • {allSkills.length} topics to master
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function RoadmapView({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white border border-zinc-100 p-6 shadow-sm"
+          className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 p-6 shadow-sm"
         >
           <p className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase mb-5">
             Learning Path
@@ -134,7 +134,7 @@ export default function RoadmapView({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
               transition={{ duration: 0.3 }}
-              className="lg:col-span-2 bg-white border border-zinc-100 p-6 shadow-sm min-h-[520px] flex flex-col"
+              className="lg:col-span-2 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 p-6 shadow-sm min-h-[520px] flex flex-col"
             >
               <TopicDetailPanel
                 stage={activeStage}
@@ -173,7 +173,7 @@ export default function RoadmapView({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-zinc-900 text-white p-8 text-center"
+              className="bg-zinc-900 dark:bg-zinc-800 text-white p-8 text-center"
             >
               <p className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase mb-3">
                 🎉 Roadmap Complete

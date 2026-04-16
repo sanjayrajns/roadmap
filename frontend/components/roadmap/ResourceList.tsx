@@ -33,40 +33,40 @@ const TYPE_CONFIG: Record<Resource["type"], {
     label: "VIDEO",
     Icon: Video,
     badge: "bg-[#655C7A] text-white",
-    sectionBg: "bg-[#655C7A]/8",
-    sectionText: "text-[#655C7A]",
+    sectionBg: "bg-[#655C7A]/8 dark:bg-[#655C7A]/20",
+    sectionText: "text-[#655C7A] dark:text-[#8E82A8]",
     sectionDot: "bg-[#655C7A]",
   },
   documentation: {
     label: "DOCS",
     Icon: FileText,
-    badge: "bg-zinc-900 text-white",
-    sectionBg: "bg-zinc-50",
-    sectionText: "text-zinc-700",
-    sectionDot: "bg-zinc-700",
+    badge: "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900",
+    sectionBg: "bg-zinc-50 dark:bg-zinc-800",
+    sectionText: "text-zinc-700 dark:text-zinc-300",
+    sectionDot: "bg-zinc-700 dark:bg-zinc-300",
   },
   github: {
     label: "GITHUB",
     Icon: FolderGit2,
     badge: "bg-amber-400 text-black",
-    sectionBg: "bg-amber-50",
-    sectionText: "text-amber-700",
+    sectionBg: "bg-amber-50 dark:bg-amber-900/20",
+    sectionText: "text-amber-700 dark:text-amber-400",
     sectionDot: "bg-amber-500",
   },
   project: {
     label: "PROJECT",
     Icon: Wrench,
-    badge: "bg-white text-zinc-900 border border-zinc-900",
-    sectionBg: "bg-blue-50",
-    sectionText: "text-blue-700",
+    badge: "bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-900 dark:border-zinc-100",
+    sectionBg: "bg-blue-50 dark:bg-blue-900/20",
+    sectionText: "text-blue-700 dark:text-blue-400",
     sectionDot: "bg-blue-500",
   },
 };
 
 const DEPTH_BADGE: Record<string, string> = {
-  beginner: "bg-emerald-100 text-emerald-700",
-  intermediate: "bg-blue-100 text-blue-700",
-  advanced: "bg-rose-100 text-rose-700",
+  beginner: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400",
+  intermediate: "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400",
+  advanced: "bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-400",
 };
 
 const TYPE_ORDER: Resource["type"][] = ["video", "documentation", "github", "project"];
@@ -86,20 +86,20 @@ function ResourceCard({ res, idx }: { res: Resource; idx: number }) {
         href={res.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-3 p-3 bg-white border border-zinc-100 hover:border-zinc-900 transition-all duration-200 hover:shadow-sm"
+        className="group flex items-center gap-3 p-3 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-zinc-900 dark:hover:border-zinc-500 transition-all duration-200 hover:shadow-sm"
       >
         {/* Type Icon */}
-        <div className="shrink-0 p-2 bg-zinc-50 group-hover:bg-zinc-900 group-hover:text-white text-zinc-600 transition-colors duration-200">
+        <div className="shrink-0 p-2 bg-zinc-50 dark:bg-zinc-800 group-hover:bg-zinc-900 dark:group-hover:bg-zinc-100 group-hover:text-white dark:group-hover:text-zinc-900 text-zinc-600 dark:text-zinc-400 transition-colors duration-200">
           <Icon className="w-3.5 h-3.5" />
         </div>
 
         {/* Title + Description */}
         <div className="flex-1 min-w-0">
-          <span className="block text-sm font-medium text-zinc-800 group-hover:text-zinc-900 leading-snug truncate">
+          <span className="block text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-900 dark:group-hover:text-white leading-snug truncate">
             {res.title}
           </span>
           {res.description && (
-            <p className="text-[11px] text-zinc-400 line-clamp-1 group-hover:text-zinc-500 font-light mt-0.5">
+            <p className="text-[11px] text-zinc-400 dark:text-zinc-500 line-clamp-1 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 font-light mt-0.5">
               {res.description}
             </p>
           )}
@@ -127,7 +127,7 @@ function ResourceCard({ res, idx }: { res: Resource; idx: number }) {
             {cfg.label}
           </span>
 
-          <ExternalLink className="w-3 h-3 text-zinc-300 group-hover:text-zinc-900 transition-colors shrink-0" />
+          <ExternalLink className="w-3 h-3 text-zinc-300 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors shrink-0" />
         </div>
       </a>
     </motion.div>

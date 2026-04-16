@@ -26,22 +26,22 @@ export default function DashboardSection({
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
-        <LayoutDashboard className="w-5 h-5 text-zinc-900" />
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Dashboard</h2>
+      <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <LayoutDashboard className="w-5 h-5 text-zinc-900 dark:text-zinc-100" />
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Dashboard</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Resume Card */}
-        <div className="md:col-span-2 bg-zinc-900 p-8 text-white flex flex-col justify-between">
+        <div className="md:col-span-2 bg-zinc-900 dark:bg-zinc-800 border border-zinc-900 dark:border-zinc-700 p-8 text-white flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase mb-4 block">
               Up Next
             </span>
-            <h3 className="text-3xl font-bold mb-2">
+            <h3 className="text-3xl font-bold mb-2 text-white">
               {currentStage?.stage_name || "Completed Roadmap"}
             </h3>
-            <p className="text-zinc-400 mt-2 text-sm max-w-sm">
+            <p className="text-zinc-300 dark:text-zinc-400 mt-2 text-sm max-w-sm">
               Ready to dive back into your learning journey? Continue where you left off.
             </p>
           </div>
@@ -56,9 +56,9 @@ export default function DashboardSection({
         </div>
 
         {/* Progress Stats Box */}
-        <div className="bg-white border border-zinc-200 p-6 flex flex-col justify-between">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 flex flex-col justify-between">
           <div className="space-y-6">
-            <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-900">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
               Overview
             </h4>
             <ProgressTracker completed={completedStages} total={totalStages} />
@@ -74,7 +74,7 @@ export default function DashboardSection({
             </div>
             <div className="flex items-center gap-3">
               <Clock className="w-4 h-4 text-zinc-400" />
-              <span className="text-sm text-zinc-600 font-medium">Updated just now</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400 font-medium">Updated just now</span>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function DashboardSection({
 
       {/* Recommended Resources Snapshot */}
       <div>
-        <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-900 mb-4">
+        <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-900 dark:text-zinc-100 mb-4">
           Quick Resources
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -92,14 +92,14 @@ export default function DashboardSection({
               href={res.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 border border-zinc-200 bg-white hover:border-zinc-900 transition-colors group block"
+              className="p-4 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-zinc-900 dark:hover:border-zinc-500 transition-colors group block"
             >
               <div className="mb-2">
-                <span className="text-[9px] font-bold tracking-widest uppercase bg-zinc-100 px-2 py-1 text-zinc-600">
+                <span className="text-[9px] font-bold tracking-widest uppercase bg-zinc-100 dark:bg-zinc-800 px-2 py-1 text-zinc-600 dark:text-zinc-400">
                   {res.type}
                 </span>
               </div>
-              <p className="text-sm font-bold text-zinc-900 mb-1 group-hover:underline">
+              <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-1 group-hover:underline">
                 {res.title}
               </p>
             </a>

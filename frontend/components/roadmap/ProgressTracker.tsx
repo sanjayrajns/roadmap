@@ -17,13 +17,13 @@ export default function ProgressTracker({ completed, total }: ProgressTrackerPro
           <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
             Progress
           </span>
-          <span className="text-[10px] font-bold tracking-widest text-zinc-900 uppercase">
+          <span className="text-[10px] font-bold tracking-widest text-zinc-900 dark:text-zinc-100 uppercase">
             {pct}%
           </span>
         </div>
-        <div className="h-1 w-full bg-zinc-100 overflow-hidden">
+        <div className="h-1 w-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
           <motion.div
-            className="h-full bg-zinc-900"
+            className="h-full bg-zinc-900 dark:bg-zinc-100"
             initial={{ width: 0 }}
             animate={{ width: `${pct}%` }}
             transition={{ duration: 0.6, ease: "easeOut" }}

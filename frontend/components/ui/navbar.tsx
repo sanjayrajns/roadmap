@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Code2, Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -75,6 +76,7 @@ export default function Navbar() {
               >
                 <Code2 className="w-5 h-5" />
               </Link>
+              <ThemeToggle className="text-white hover:text-zinc-200" />
               <Link
                 href="/login"
                 className="text-sm font-medium uppercase tracking-widest text-white hover:text-zinc-200 transition-colors px-4"
@@ -118,6 +120,7 @@ export default function Navbar() {
           </div>
           <div className="h-px w-full bg-zinc-100" />
           <div className="flex flex-col space-y-4">
+            <ThemeToggle variant="pill" className="w-full justify-center" />
             <Link
               href="/login"
               className="text-base font-bold uppercase tracking-widest text-white hover:text-zinc-200"

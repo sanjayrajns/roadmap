@@ -44,7 +44,7 @@ export default function VerificationPanel({
         <p className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase mb-1">
           Self-Verification Checklist
         </p>
-        <p className="text-sm text-zinc-500 leading-relaxed">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
           Confirm each item before marking this stage complete.
         </p>
       </div>
@@ -63,15 +63,15 @@ export default function VerificationPanel({
               className={cn(
                 "w-full flex items-start gap-3 p-4 border text-left transition-all duration-200",
                 checked[idx]
-                  ? "bg-zinc-900 border-zinc-900 text-white"
-                  : "bg-white border-zinc-200 text-zinc-700 hover:border-zinc-900"
+                  ? "bg-zinc-900 dark:bg-zinc-100 border-zinc-900 dark:border-zinc-100 text-white dark:text-zinc-900"
+                  : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-zinc-900 dark:hover:border-zinc-500"
               )}
             >
               <div className="shrink-0 mt-0.5">
                 {checked[idx] ? (
                   <CheckSquare className="w-4 h-4 text-white" />
                 ) : (
-                  <Square className="w-4 h-4 text-zinc-400" />
+                  <Square className="w-4 h-4 text-zinc-400 dark:text-zinc-600" />
                 )}
               </div>
               <span className="text-sm font-medium leading-snug">{q}</span>
@@ -86,12 +86,12 @@ export default function VerificationPanel({
             key="done"
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200"
+            className="flex items-center gap-3 p-4 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800"
           >
-            <div className="w-6 h-6 bg-zinc-900 flex items-center justify-center shrink-0">
-              <Check className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+            <div className="w-6 h-6 bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center shrink-0">
+              <Check className="w-3.5 h-3.5 text-white dark:text-zinc-900" strokeWidth={2.5} />
             </div>
-            <p className="text-sm font-bold text-zinc-900">
+            <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
               Stage completed! Next stage unlocked.
             </p>
           </motion.div>
@@ -105,8 +105,8 @@ export default function VerificationPanel({
             className={cn(
               "w-full py-4 text-sm font-bold uppercase tracking-widest transition-all duration-300",
               allChecked
-                ? "bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-900/10 cursor-pointer"
-                : "bg-zinc-100 text-zinc-400 cursor-not-allowed"
+                ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 shadow-lg shadow-zinc-900/10 cursor-pointer"
+                : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 cursor-not-allowed"
             )}
           >
             {allChecked ? "Mark Stage as Complete →" : "Complete all items to continue"}
