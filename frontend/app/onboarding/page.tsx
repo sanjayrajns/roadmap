@@ -112,6 +112,18 @@ export default function Onboarding() {
     return matchesSearch && matchesCategory;
   });
 
+  // Load cached roadmap on mount
+  useEffect(() => {
+    const cached = localStorage.getItem('localRoadmapCache');
+    if (cached) {
+      try {
+        setUiPayload(JSON.parse(cached));
+      } catch (e) {
+        console.error("Failed to parse cached roadmap", e);
+      }
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.time_commitment) {
@@ -126,7 +138,8 @@ export default function Onboarding() {
         body: JSON.stringify(formData)
       });
       const data = await response.json();
-      if (data.error) throw new Error(data.error);
+      // Save to local storage for caching
+      localStorage.setItem('localRoadmapCache', JSON.stringify(data));
       setUiPayload(data);
     } catch (err: any) {
       console.error(err);

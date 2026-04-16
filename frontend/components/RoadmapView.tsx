@@ -51,9 +51,15 @@ export default function RoadmapView({
   onReturnToDashboard,
 }: RoadmapViewProps) {
   const [activeStageIndex, setActiveStageIndex] = useState(0);
-  const [completedStages, setCompletedStages] = useState<Set<number>>(
-    () => new Set()
-  );
+  const [completedStages, setCompletedStages] = useState<Set<number>>(() => {
+    const initialSet = new Set<number>();
+    if (initialProgress?.completed_stages) {
+      for (let i = 0; i < initialProgress.completed_stages; i++) {
+        initialSet.add(i);
+      }
+    }
+    return initialSet;
+  });
 
   const [localRoadmap, setLocalRoadmap] = useState<Roadmap>(roadmap);
   const [isLoadingResources, setIsLoadingResources] = useState(false);
@@ -102,13 +108,32 @@ export default function RoadmapView({
   }, [activeStageIndex, localRoadmap]);
 
   useEffect(() => {
-    if (completedStages.size === stages.length && stages.length > 0) {
+    const totalStages = localRoadmap?.stages?.length || 0;
+    if (completedStages.size === totalStages && totalStages > 0) {
       const timer = setTimeout(() => {
         if (onReturnToDashboard) onReturnToDashboard();
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [completedStages.size, stages.length, onReturnToDashboard]);
+  }, [completedStages.size, localRoadmap?.stages?.length, onReturnToDashboard]);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem("localRoadmapCache");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        const totalStages = localRoadmap?.stages?.length || 0;
+        parsed.roadmap = localRoadmap;
+        parsed.progress = {
+          completed_stages: completedStages.size,
+          total_stages: totalStages,
+        };
+        localStorage.setItem("localRoadmapCache", JSON.stringify(parsed));
+      }
+    } catch (e) {
+      console.error("Failed to update cache", e);
+    }
+  }, [localRoadmap, completedStages]);
 
   if (!localRoadmap || !localRoadmap.stages?.length) return null;
 

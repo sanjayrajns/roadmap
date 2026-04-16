@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/firebase-admin';
 import { execSync } from 'child_process';
 import path from 'path';
 
@@ -41,39 +40,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Optionally: Update firebase document silently if firebaseId and stageIndex are provided
-    // To keep it fast, we can do this without awaiting.
-    if (firebaseId && typeof stageIndex === 'number') {
-      const db = getDb();
-      db.collection('roadmaps').doc(firebaseId).get().then(doc => {
-        if (doc.exists) {
-            const data = doc.data();
-            if (data?.roadmap?.stages && data.roadmap.stages[stageIndex]) {
-                const stages = [...data.roadmap.stages];
-                if (!stages[stageIndex].resources) {
-                    stages[stageIndex].resources = {};
-                }
-                stages[stageIndex].resources = {
-                    ...stages[stageIndex].resources,
-                    ...mappedResources
-                };
-                
-                // Append flat resources
-                const newFlatResources = [...(data.resources || [])];
-                Object.values(mappedResources).flat().forEach((res: any) => {
-                   if (!newFlatResources.find(r => r.url === res.url)) {
-                       newFlatResources.push(res);
-                   }
-                });
-
-                doc.ref.update({
-                    'roadmap.stages': stages,
-                    'resources': newFlatResources
-                });
-            }
-        }
-      }).catch(e => console.error("Failed to async-update firebase:", e));
-    }
+    // Firebase dependency has been removed. Local caching is handled within the client component.
 
     return NextResponse.json({ resources: mappedResources });
   } catch (error: any) {

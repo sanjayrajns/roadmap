@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/firebase-admin';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
@@ -66,38 +65,15 @@ export async function POST(request: Request) {
       stage.resources = {};
     }
 
-    // Step 5: Save to Firebase
-    const db = getDb();
+    // Step 3: No Firebase Save (Local Cache Only)
     const finalUserId = userId || generateUserId();
-    const docData = {
-      userId: finalUserId,
-      role_goal,
-      experience_level: experience_level || 'beginner',
-      learning_style: learning_style || 'video',
-      interest_area: interest_area || '',
-      time_commitment: time_commitment || 10,
-      roadmap: roadmapPayload,
-      resources: flatResources,
-      progress: {
-        completed_stages: 0,
-        total_stages: roadmapPayload.stages?.length || 0,
-      },
-      createdAt: new Date().toISOString(),
-    };
-
-    let firebaseId = "mock-id";
-    try {
-      const docRef = await db.collection('roadmaps').add(docData);
-      firebaseId = docRef.id;
-    } catch (e: any) {
-      console.warn("Firebase save error:", e.message);
-    }
+    const localId = "local-" + Date.now().toString(36);
 
     return NextResponse.json({ 
       roadmap: roadmapPayload, 
       resources: flatResources,
       progress: { completed_stages: 0, total_stages: roadmapPayload.stages?.length || 0 },
-      firebaseId,
+      firebaseId: localId,
       userId: finalUserId,
     });
 
