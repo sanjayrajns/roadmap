@@ -101,6 +101,15 @@ export default function RoadmapView({
     fetchResources();
   }, [activeStageIndex, localRoadmap]);
 
+  useEffect(() => {
+    if (completedStages.size === stages.length && stages.length > 0) {
+      const timer = setTimeout(() => {
+        if (onReturnToDashboard) onReturnToDashboard();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [completedStages.size, stages.length, onReturnToDashboard]);
+
   if (!localRoadmap || !localRoadmap.stages?.length) return null;
 
   const stages = localRoadmap.stages;
@@ -231,18 +240,13 @@ export default function RoadmapView({
               <h2 className="text-2xl md:text-3xl font-bold mb-2">
                 You've mastered the {roleLabel} path!
               </h2>
-              <p className="text-zinc-400 text-sm mb-6">
+              <p className="text-zinc-400 text-sm mb-2">
                 All {stages.length} stages completed. Time to build something
                 great.
               </p>
-              {onReturnToDashboard && (
-                <button
-                  onClick={onReturnToDashboard}
-                  className="bg-white text-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
-                >
-                  Proceed to Dashboard →
-                </button>
-              )}
+              <p className="text-zinc-500 text-xs animate-pulse">
+                Redirecting to dashboard in a moment...
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
