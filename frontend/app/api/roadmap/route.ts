@@ -59,10 +59,35 @@ export async function POST(request: Request) {
       }, userGoals);
     }
 
-    // Step 2: Skip Resource Fetching (Lazy Loaded sequentially)
+    // Step 2: Fetch Resources for the FIRST stage ONLY (to populate Dashboard quickly)
     const flatResources: any[] = [];
-    for (const stage of roadmapPayload.stages) {
-      stage.resources = {};
+    if (roadmapPayload.stages && roadmapPayload.stages.length > 0) {
+      const firstStage = roadmapPayload.stages[0];
+      const skills = firstStage.skills || [];
+      const topicsStr = [role_goal, ...skills].slice(0, 5).join(',');
+      
+      try {
+        const pythonPath = process.env.NODE_ENV === 'production' ? 'python3' : 'python';
+        const scriptPath = path.join(process.cwd(), '..', 'tools', 'fetch_resources.py');
+        const cmd = `${pythonPath} "${scriptPath}" --topics "${topicsStr}"`;
+        // Execute sync with timeout to avoid blocking forever
+        const output = execSync(cmd, { encoding: 'utf-8', timeout: 10000 });
+        const fetchedResources = JSON.parse(output);
+        
+        firstStage.resources = fetchedResources;
+        // Collect into flatResources
+        Object.values(fetchedResources).forEach((arr: any) => {
+          if (Array.isArray(arr)) flatResources.push(...arr);
+        });
+      } catch (e: any) {
+        console.warn("Failed to fetch resources for first stage inline:", e.message);
+        firstStage.resources = {};
+      }
+      
+      // Keep rest of stages lazy
+      for (let i = 1; i < roadmapPayload.stages.length; i++) {
+        roadmapPayload.stages[i].resources = {};
+      }
     }
 
     // Step 3: No Firebase Save (Local Cache Only)
